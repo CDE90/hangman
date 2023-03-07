@@ -2,6 +2,20 @@ import { type NextPage } from "next";
 import Head from "next/head";
 import { useEffect, useState } from "react";
 
+const imageArray = [
+  "/hangman/0.svg",
+  "/hangman/1.svg",
+  "/hangman/2.svg",
+  "/hangman/3.svg",
+  "/hangman/4.svg",
+  "/hangman/5.svg",
+  "/hangman/6.svg",
+];
+
+const getImage = (guesses: number) => {
+  return (imageArray[guesses] || imageArray.at(-1)) ?? "";
+};
+
 const Hangman: NextPage = () => {
   const [word, setWord] = useState("");
   const [letters, setLetters] = useState([] as string[]);
@@ -103,6 +117,11 @@ const Hangman: NextPage = () => {
                 ? "You lose!"
                 : `Guesses: ${guesses}/6`}
             </p>
+            <img
+              src={getImage(guesses)}
+              alt="Hangman"
+              className="max-w-96 w-1/2"
+            />
             <p>
               <button
                 onClick={() => {
