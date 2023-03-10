@@ -269,6 +269,7 @@ const Hangman: NextPage = () => {
                         setGuesses(0);
                         setGameOver(false);
                         setActive(false);
+                        router.push("/").catch((e) => console.log(e));
                       }}
                     >
                       Play Again
