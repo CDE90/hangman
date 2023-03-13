@@ -27,6 +27,7 @@ const Hangman: NextPage = () => {
   const [active, setActive] = useState(false);
   const [validWord, setValidWord] = useState(false);
   const [copied, setCopied] = useState(false);
+  const [copied2, setCopied2] = useState(false);
 
   const router = useRouter();
   const { w, l } = router.query;
@@ -91,6 +92,14 @@ const Hangman: NextPage = () => {
       }, 2000);
     }
   }, [copied]);
+
+  useEffect(() => {
+    if (copied2) {
+      setTimeout(() => {
+        setCopied2(false);
+      }, 2000);
+    }
+  }, [copied2]);
 
   // get a random word
   const getRandomWord = async () => {
@@ -239,6 +248,7 @@ const Hangman: NextPage = () => {
                 className={`flex flex-row items-center gap-4 bg-blue-600 p-4 text-white ${
                   copied ? "opacity-50" : ""
                 }`}
+                disabled={copied}
               >
                 <FaLink className="text-2xl" />
                 <p className="text-lg">{copied ? "Copied" : "Share"}</p>
@@ -261,7 +271,7 @@ const Hangman: NextPage = () => {
                       {word}
                     </a>
                   </p>
-                  <p className="flex flex-col items-center pt-4">
+                  <p className="flex flex-col items-center gap-4 pt-4">
                     <button
                       onClick={() => {
                         setWord("");
@@ -273,6 +283,24 @@ const Hangman: NextPage = () => {
                       }}
                     >
                       Play Again
+                    </button>
+                    <button
+                      onClick={() => {
+                        const link = `${
+                          window.location.origin
+                        }?w=${encodeString(word)}`;
+                        navigator.clipboard
+                          .writeText(link)
+                          .catch((err) => console.log(err));
+                        setCopied2(true);
+                      }}
+                      className={`flex flex-row items-center gap-3 bg-blue-600 p-3 text-white ${
+                        copied2 ? "opacity-50" : ""
+                      }`}
+                      disabled={copied2}
+                    >
+                      <FaLink className="text-2xl" />
+                      <p className="text-lg">{copied2 ? "Copied" : "Share"}</p>
                     </button>
                   </p>
                 </div>
